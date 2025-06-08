@@ -3,9 +3,9 @@ import torch
 import torchvision.models as models
 import torchvision.transforms as transforms
 
-# 事前学習済みモデルをロード（分類: 1000クラス）
+# Load the pre-trained model (Classification: 1000 classes)
 model = models.resnet18(pretrained=True)
 model.eval()
 
-# 保存
+# save
 torch.save(model, "model.pt")
