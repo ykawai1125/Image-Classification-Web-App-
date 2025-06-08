@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Classifier</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* 背景動画 */
+    #bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    /* コンテンツを中央に表示 */
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    #loading {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #result {
+      margin-top: 20px;
+      display: none;
+      transition: opacity 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!--  背景動画ファイル（static/bg.mp4 を使う） -->
+  <video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- アップロードフォームなどのメインUI -->
+  <div class="content">
+    <h1>画像分類アプリ</h1>
+    <form id="upload-form" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" id="image">
+      <button type="submit">アップロード</button>
+    </form>
+    <div id="loading"> 分類中...</div>
+    <div id="result"></div>
+  </div>
+
+  <!-- JSでAjax送信 -->
+  <script>
+    document.getElementById("upload-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      const fileField = document.querySelector("input[name='image']");
+      formData.append("image", fileField.files[0]);
+
+      const loading = document.getElementById("loading");
+      const result = document.getElementById("result");
+      result.style.display = "none";
+      loading.style.display = "block";
+
+      fetch("/predict", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          loading.style.display = "none";
+          result.innerText = data.result;
+          result.style.opacity = 0;
+          result.style.display = "block";
+          setTimeout(() => {
+            result.style.opacity = 1;
+          }, 50);
+        });
+    });
+  </script>
+</body>
+</html>
