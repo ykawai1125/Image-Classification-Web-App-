@@ -24,3 +24,7 @@ It allows users to upload images and get predictions using a pre-trained ResNet 
 - File handling and server-side validation  
 - Front-end integration with HTML/CSS  
 - HTTP request handling and response formatting
+
+## Live Demo
+
+You can try it http://127.0.0.1:5000
