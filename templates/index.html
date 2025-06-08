@@ -12,7 +12,7 @@
       font-family: Arial, sans-serif;
     }
 
-    /* 背景動画 */
+    /* Background video */
     #bg-video {
       position: fixed;
       right: 0;
@@ -23,7 +23,7 @@
       object-fit: cover;
     }
 
-    /* コンテンツを中央に表示 */
+    /* Centered content */
     .content {
       position: absolute;
       top: 50%;
@@ -50,24 +50,24 @@
 </head>
 <body>
 
-  <!--  背景動画ファイル（static/bg.mp4 を使う） -->
+  <!-- Background video file (uses static/bg.mp4) -->
   <video autoplay muted loop id="bg-video">
     <source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
 
-  <!-- アップロードフォームなどのメインUI -->
+  <!-- Main UI for uploading -->
   <div class="content">
-    <h1>画像分類アプリ</h1>
+    <h1>Image Classification App</h1>
     <form id="upload-form" method="POST" enctype="multipart/form-data">
       <input type="file" name="image" id="image">
-      <button type="submit">アップロード</button>
+      <button type="submit">Upload</button>
     </form>
-    <div id="loading"> 分類中...</div>
+    <div id="loading">Classifying...</div>
     <div id="result"></div>
   </div>
 
-  <!-- JSでAjax送信 -->
+  <!-- AJAX submission via JavaScript -->
   <script>
     document.getElementById("upload-form").addEventListener("submit", function (e) {
       e.preventDefault();
